@@ -1,8 +1,6 @@
 # Camels
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/camels`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem is a port of the [awrence](https://github.com/futurechimp/awrence) to being a class that can be called via `call` instead of placing the methods on the Hash itself. This was partially a test to see how hard it would be, and an exercise in removing the need for defining the acronyms globally. While working with Sidekiq we found that the acronyms being defined globally was causing problems between jobs that needed different acronyms.
 
 ## Installation
 
@@ -22,7 +20,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'camels'
+
+acronyms = { 'id'=> 'ID' }
+hash = { 'snake_id'=> '1111' }
+camelized = Camels::ToCamelKeys.new.call(hash, acronyms) # { 'snakeID' => '1111' }
+```
 
 ## Development
 
