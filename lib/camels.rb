@@ -1,4 +1,4 @@
-require "camels/version"
+require 'camels/version'
 
 module Camels
   class Error < StandardError; end
