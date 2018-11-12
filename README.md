@@ -25,7 +25,7 @@ require 'camels'
 
 acronyms = { 'id'=> 'ID' }
 hash = { 'snake_id'=> '1111' }
-camelized = Camels::ToCamelKeys.new.call(hash, acronyms) # { 'snakeID' => '1111' }
+camelized = Camels::ToCamelKeys.new.call(value: hash, acronyms: acronyms) # { 'snakeID' => '1111' }
 ```
 
 ## Development
