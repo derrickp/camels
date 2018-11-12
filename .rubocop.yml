@@ -1,6 +1,15 @@
+require: rubocop-rspec
+
+inherit_from:
+  - https://relaxed.ruby.style/rubocop.yml
+
 AllCops:
   Exclude:
     - '*.gemspec'
     - 'bin/**/*'
     - Gemfile
     - Gemfile.lock
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
