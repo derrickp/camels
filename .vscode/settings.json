@@ -1,0 +1,10 @@
+{
+  "files.exclude": {
+    ".rspec_status": true,
+    "bin": true,
+    "Gemfile.lock": true
+  },
+  "ruby.lint": {
+    "rubocop": true
+  }
+}
