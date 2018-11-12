@@ -9,96 +9,96 @@ RSpec.describe Camels::ToCamelbackKeys do
 
   context 'with a simple hash' do
     let(:hash) do
-      { "first_key" => "fooBar" }
+      { 'first_key' => 'fooBar' }
     end
 
     it 'camelizes the key' do
-      expect(camelized.keys.first).to eq("firstKey")
+      expect(camelized.keys.first).to eq('firstKey')
     end
 
-    it "leaves the key as a string" do
+    it 'leaves the key as a string' do
       expect(camelized.keys.first).to be_a(String)
     end
 
-    it "leaves the value untouched" do
-      expect(camelized.values.first).to eq("fooBar")
+    it 'leaves the value untouched' do
+      expect(camelized.values.first).to eq('fooBar')
     end
 
-    it "leaves the original hash untouched" do
-      expect(hash.keys.first).to eq("first_key")
+    it 'leaves the original hash untouched' do
+      expect(hash.keys.first).to eq('first_key')
     end
   end
 
   context 'with embedded hashes' do
     let(:hash) do
       {
-        "apple_type" => "Granny Smith",
-        "vegetable_types" => [
-          { "potato_type" => "Golden delicious" },
-          { "other_tuber_type" => "peanut" },
-          { "peanut_names_and_spouses" => [
-            { "bill_the_peanut" => "sally_peanut" },
-            { "sammy_the_peanut" => "jill_peanut" }
+        'apple_type' => 'Granny Smith',
+        'vegetable_types' => [
+          { 'potato_type' => 'Golden delicious' },
+          { 'other_tuber_type' => 'peanut' },
+          { 'peanut_names_and_spouses' => [
+            { 'bill_the_peanut' => 'sally_peanut' },
+            { 'sammy_the_peanut' => 'jill_peanut' }
           ] }
         ]
       }
     end
 
-    it "recursively camelizes the keys on the top level of the hash" do
-      expect(camelized.keys).to include("appleType", "vegetableTypes")
+    it 'recursively camelizes the keys on the top level of the hash' do
+      expect(camelized.keys).to include('appleType', 'vegetableTypes')
     end
 
-    it "leaves the values on the top level alone" do
-      expect(camelized["appleType"]).to eq("Granny Smith")
+    it 'leaves the values on the top level alone' do
+      expect(camelized['appleType']).to eq('Granny Smith')
     end
 
-    it "converts second-level keys" do
-      expect(camelized["vegetableTypes"].first).to have_key("potatoType")
+    it 'converts second-level keys' do
+      expect(camelized['vegetableTypes'].first).to have_key('potatoType')
     end
 
-    it "leaves second-level values alone" do
-      expect(camelized["vegetableTypes"].first).to have_value("Golden delicious")
+    it 'leaves second-level values alone' do
+      expect(camelized['vegetableTypes'].first).to have_value('Golden delicious')
     end
 
-    it "converts third-level keys" do
-      expect(camelized["vegetableTypes"].last["peanutNamesAndSpouses"].first).to have_key("billThePeanut")
+    it 'converts third-level keys' do
+      expect(camelized['vegetableTypes'].last['peanutNamesAndSpouses'].first).to have_key('billThePeanut')
     end
 
-    it "leaves third-level values alone" do
-      expect(camelized["vegetableTypes"].last["peanutNamesAndSpouses"].first["billThePeanut"]).to eq("sally_peanut")
+    it 'leaves third-level values alone' do
+      expect(camelized['vegetableTypes'].last['peanutNamesAndSpouses'].first['billThePeanut']).to eq('sally_peanut')
     end
   end
 
   context 'with a key that is an acronym' do
     let(:acronyms) do
-      { "id" => "ID" }
+      { 'id' => 'ID' }
     end
 
     let(:hash) do
-      { "user_id" => "1" }
+      { 'user_id' => '1' }
     end
 
-    it "camelizes the acronym" do
-      expect(camelized.keys.first).to eq("userID")
+    it 'camelizes the acronym' do
+      expect(camelized.keys.first).to eq('userID')
     end
 
     context 'when entire key is acronym' do
       let(:hash) do
-        { "id" => "1" }
+        { 'id' => '1' }
       end
 
-      it "respects camelback boundaries" do
-        expect(camelized.keys.first).to eq("id")
+      it 'respects camelback boundaries' do
+        expect(camelized.keys.first).to eq('id')
       end
     end
 
     context 'with acronym as part of another word' do
       let(:hash) do
-        { "idee" => "1" }
+        { 'idee' => '1' }
       end
 
       it 'matches on word boundaries' do
-        expect(camelized.keys.first).to eq("idee")
+        expect(camelized.keys.first).to eq('idee')
       end
     end
   end
