@@ -102,4 +102,32 @@ RSpec.describe Camels::ToCamelbackKeys do
       end
     end
   end
+
+  context 'when given an Array' do
+    subject(:camelized) { interactor.call(value: value) }
+
+    let(:value) do
+      [
+        {
+          'apple_type' => 'Granny Smith',
+          'vegetable_types' => [
+            { 'potato_type' => 'Golden delicious' },
+            { 'other_tuber_type' => 'peanut' },
+            { 'peanut_names_and_spouses' => [
+              { 'bill_the_peanut' => 'sally_peanut' },
+              { 'sammy_the_peanut' => 'jill_peanut' }
+            ] }
+          ]
+        }
+      ]
+    end
+
+    it 'camelizes the keys of the objects' do
+      expect(camelized.first).to have_key('appleType')
+    end
+
+    it 'camelizes the keys of the embedded hash' do
+      expect(camelized.first['vegetableTypes'].first).to have_key('potatoType')
+    end
+  end
 end

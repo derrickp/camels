@@ -2,10 +2,9 @@ require 'spec_helper'
 require 'camels/to_camel_keys'
 
 RSpec.describe Camels::ToCamelKeys do
-  subject(:camelized) { interactor.call(value: hash, acronyms: acronyms) }
+  subject(:camelized) { interactor.call(value: hash) }
 
   let(:interactor) { described_class.new }
-  let(:acronyms) { {} }
 
   context 'with a simple hash' do
     let(:hash) do
@@ -70,6 +69,8 @@ RSpec.describe Camels::ToCamelKeys do
   end
 
   context 'with a key that is an acronym' do
+    subject(:camelized) { interactor.call(value: hash, acronyms: acronyms) }
+
     let(:acronyms) do
       { 'id' => 'ID' }
     end
@@ -100,6 +101,34 @@ RSpec.describe Camels::ToCamelKeys do
       it 'matches on word boundaries' do
         expect(camelized.keys.first).to eq('Idee')
       end
+    end
+  end
+
+  context 'when given an Array' do
+    subject(:camelized) { interactor.call(value: value) }
+
+    let(:value) do
+      [
+        {
+          'apple_type' => 'Granny Smith',
+          'vegetable_types' => [
+            { 'potato_type' => 'Golden delicious' },
+            { 'other_tuber_type' => 'peanut' },
+            { 'peanut_names_and_spouses' => [
+              { 'bill_the_peanut' => 'sally_peanut' },
+              { 'sammy_the_peanut' => 'jill_peanut' }
+            ] }
+          ]
+        }
+      ]
+    end
+
+    it 'camelizes the keys of the objects' do
+      expect(camelized.first).to have_key('AppleType')
+    end
+
+    it 'camelizes the keys of the embedded hash' do
+      expect(camelized.first['VegetableTypes'].first).to have_key('PotatoType')
     end
   end
 end
